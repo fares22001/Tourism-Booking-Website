@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/styleForm.css">
+    <link rel="stylesheet" type="text/css" href="/css/styleHF_ALL.css">
+    <link rel="stylesheet" type="text/css" href="/css/styleActivities.css">
+
+    <style>
+        #searchacts{
+            position: relative;
+            border-radius: 10px;
+            margin-top: 15px;
+            margin-right: 20px;
+            border: none;
+            padding: 5px;
+            width:90%;
+            height:33px;
+            box-sizing: border-box;
+        }
+        #searchacts:focus {
+            outline: 3px solid #ddd;
+        }
+
+        #search{
+            float:right;
+            width:40%;
+        }
+
+        #nomatch{
+            display: none;
+            height:560px;
+            margin-left:30px;
+        }
+        #wishdot{
+            position: absolute;
+            color: #ff0000;
+            font-size: 10px;
+            float:right;
+            left:80.9%;
+            top:3.3%;
+            display: none;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="/js/ajax-wishlist.js"></script>  
+    <script src="https://kit.fontawesome.com/ee4053c9b9.js" crossorigin="anonymous"></script>
+
+    <%- include("partials/headerPages.ejs") %>
+
+    <i class="fa-sharp fa-solid fa-circle" id='wishdot'></i>
+
+    <div id="search">
+        <input id="searchacts" name="searchacts" onkeyup=filter() type="text" placeholder="Search Activities">
+            <div id="searchResults" class="dropdown-content">
+            </div>
+    </div>
+    <div class="page">
+        <h1 class="head">Activities</h1>
+        <div id="nomatch">
+            <h2>Nothing matches your search...</h2>
+        </div>
+        
+        <div class="first" id="first">
+            <% if(activities!=="") { %>
+                <% let id=0; %>
+                <% let i=0;%>
+                <% for (; i < activities.length; i++) {%>
+
+                <%if(i < page || i > (end)){%>
+                        <%id =`hide:${i}`;%>
+                    <%}else{%>
+                        <%id = i;%>
+                    <%}%>
+                    <input type="hidden" name="actname" value="<%=activities[i].Name%>">
+
+                <div class="btn" id="<%=activities[i].Header%>-<%=id%>">
+
+                <div  onclick="location.href= '/activities/<%=activities[i].Name%>'">
+                    <img src="/images/activities/<%=activities[i].Picture[2]%>"  alt="qaitbay" width="300 px" height="200 px">
+                </div>
+
+            <div>
+                
+                <h5>
+                    <%if(user!==""){%>
+                        <%if(user.Type!=='admin'){%>
+                        <% var found = false;%>
+                         <%if(user.Wishlist.Activities.length!=0){%>
+                            <%user.Wishlist.Activities.forEach(act=>{%>
+                                <%if(act.ActID.equals(activities[i]._id)){%>
+                                    <%found = true;%>
+                                    <%}%>
+                                <%})%>
+                                    <%if(found){%>
+                                        <input type="hidden" name="user" value=<%=user._id%>>
+                                        <a ><i class="fa-solid fa-heart" style="color: #ff0000; font-size: 20px;"></i></a>
+                                    <%}else{%>
+                                        <input type="hidden" name="user" value=<%=user._id%>>
+                                        <a id="actwish"  data-actid="<%=activities[i].Name%>" ><i  class="fa-regular fa-heart" style="color: #ff0000; font-size: 20px;"></i></a>
+                                    <%}%> 
+                            <%}else{%>
+                                <input type="hidden" name="user" value=<%=user._id%>>
+                                <a id="actwish"  data-actid="<%=activities[i].Name%>"><i  class="fa-regular fa-heart" style="color: #ff0000; font-size: 20px;"></i></a>
+                            <%}%>
+                            <%}%>
+                        <%}%>
+                        <%=activities[i].Type%>
+                </h5>
+                <h4  onclick="location.href= '/activities/<%=activities[i].Name%>'"><%=activities[i].Header%></h4>
+                <h5  onclick="location.href= '/activities/<%=activities[i].Name%>'"><i class="fa-sharp fa-solid fa-timer"></i><%=activities[i].Duration%></h5>
+                <h5  onclick="location.href= '/activities/<%=activities[i].Name%>'"><mark><%=activities[i].Advantage%></mark></h5>
+            </div>
+            <% if(activities[i].Reviews.length > 0){%>
+            <div class="rating"  onclick="location.href= '/activities/<%=activities[i].Name%>'">
+                <%let revs = activities[i].Reviews;%>
+                <% let sum =0;%>
+                <% revs.forEach((rev)=>{%>
+                    <%sum+= parseInt(rev.Rating);%>
+                <%})%>
+                <%let avg = sum / (activities[i].Reviews.length)%>
+                <% if(parseInt(avg) > 0){%>
+                    <% for (let i = 0; i < Math.floor(avg); i++) {%>
+                        <i class="fa-solid fa-star" style="color: rgb(238, 203, 5);"></i>
+                    <%}%>
+                    <span><%=Math.floor(avg)%>/5</span>
+                    <div onclick="location.href= '/activities/<%=activities[i].Name%>'">
+                        
+                        <p><span><i class="fa-sharp fa-solid fa-comments" style="color:black"></i></span> <%=activities[i].Reviews.length%> Reviews</p>
+                        
+                    </div>
+                    
+            </div>
+            <%}%>
+            <%}else{%>
+                <div  onclick="location.href= '/activities/<%=activities[i].Name%>'">
+                    <p>No Reviews Yet</p>
+                </div>
+            <%}%>
+            <div  onclick="location.href= '/activities/<%=activities[i].Name%>'">
+                <h4><%=activities[i].Price%>LE per person</h4>
+            </div>
+        </div>
+        <% id++; %>
+        <%}%>
+    <% } %> 
+    </div>
+</div>
+
+
+<% if(activities !== 0) { %>
+    <div class="c" id="pages">
+        <div class="pagination">
+                <% let id1=0; %>
+                <%if(length!==undefined){%>
+                <% while(id1 !== length) { %>
+                <button type="submit" onclick="location.href='/activities/browse/page=<%=id1+1%>'"><p class="link" value="<%id1+1%>"><%=id1+1%></p></button>
+                <% id1++;%>
+            <% } %>
+            <%}%>
+        </div>
+    </div>
+    <% } %>
+
+    <%- include("partials/footer.ejs") %>
+
+    <script>
+
+        var hide = document.querySelectorAll(`[id*="hide"]`);
+            hide.forEach(h => {
+                h.style.display = "none";
+            })
+
+        function filter() {
+            var match = false;
+            var match2 = false;
+            var query = document.getElementById('searchacts').value.toUpperCase();
+            var acts = document.getElementsByClassName('btn');
+            var count = 0;
+            for (let index = 0; index < acts.length; index++) {
+                const element = acts[index];
+                var id = element.id.toUpperCase();
+                if (query !== "") {
+                    if (id.includes(query) && count != 4) {
+                        element.style.display = 'block';
+                        match = true;
+                        count++;
+                    }
+                    else {
+                        element.style.display = 'none';
+                    }
+                }
+                else{
+                    if(!id.includes('HIDE')){
+                        element.style.display = 'block';
+                    }
+                    else{
+                        element.style.display = 'none';
+                    }
+                    match=true;
+                    match2 = true;
+                }
+                        
+            }
+            if (!match) {
+                document.getElementById('nomatch').style.display = 'block';
+                document.getElementById('pages').style.display = "none";
+                document.getElementById('first').style.marginBottom = "60px";
+            }
+            else{
+                if(match2){
+                    document.getElementById('pages').style.display = "block";
+                    document.getElementById('first').style.marginBottom = "0px";
+                }
+                else{
+                    document.getElementById('pages').style.display = "none";
+                    document.getElementById('first').style.marginBottom = "60px";
+                }
+                document.getElementById('nomatch').style.display = 'none';
+            }
+            }
+            </script>
+</body>
+
+</html>

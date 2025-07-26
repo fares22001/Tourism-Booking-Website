@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    
+    <link rel="stylesheet" href="/css/styleAdminDashboard.css">
+    <link rel="stylesheet" href="/css/styleForm.css">
+    <link rel="stylesheet" href="/css/styleUsers.css">
+</head>
+<style>
+    .delete .inf
+    {
+        position:relative;
+        bottom:18px;
+
+    }
+    .update .info{
+        position:relative;
+        bottom:13px;
+    }
+    #userType:link, #userType:visited {
+  background-color: #a78c4c;
+  color: white;
+  padding: 4px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+#userType:hover, #userType:active {
+  background-color: rgb(54, 36, 27);
+}
+</style>
+
+<body>
+    <script src="https://kit.fontawesome.com/ee4053c9b9.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ee4053c9b9.js" crossorigin="anonymous"></script>
+
+    <%- include("partials/adminHeader.ejs") %>
+    <div class="main-content">
+        <div class="err" style="width:30%">
+        <%if(alert !=undefined){%>
+            <% alert.forEach((alr)=>{%>
+                <div class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <%=alr.msg%>
+                </div>
+                <%})%>
+                    <%}%>
+                </div>
+
+        <div class="right">
+            <div id="container">
+                <div class="addUser" id="addUser">
+                    <form class="form" method="post" action="/users/success">
+                       
+                        <h2><ins>Add User Info</ins></h2>
+                            
+                        <div class="container">
+                          <div class="input-group">
+                            <label for="uname">Username</label>
+                            <input id="uname" type="text" placeholder="Enter Username" name="uname">
+                           
+                          </div>
+                          
+                          <div class="input-group">
+                            <label for="email">Email</label>
+                            <input id="femail" type="email" placeholder="Enter Email" name="email" >
+                            
+                          </div>
+              
+                          <div class="input-group">
+                            <label for="number">Phone Number</label>
+                            <input id="number" type="number" placeholder="Enter Phone Number" name="number">
+                            
+                          </div>
+                          
+                          <div class="input-group">
+                            <label for="psw">Password</label>
+                            <input id="password" type="password" placeholder="Enter Password" name="psw">
+                           
+                          </div>
+              
+                          <div class="input-group">
+                            <label for="psw">Password Confirmation</label>
+                            <input id="password-confirmation" type="password" placeholder="Repeat Password" name="confpsw">
+                           
+                          </div>
+                      
+                          <div class="form-btns" style="position:relative; right:30px;">
+                            <button type="submit" >Add</button>
+                            <button onclick="reset()">Reset</button>
+                          </div>
+                          
+                        </div>
+                      </form>
+                </div>
+                <!-- <script src="js/formsVal.js"></script> -->
+
+
+
+                <div class="view" style="position:relative; top:60px;">
+                    <div id="search">
+                        <div id="sBar">
+                            <i id="sIcon" class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for users..">
+                        </div>
+                    </div>
+
+                    <ul id="myUL">
+                   
+                        <% if(users!=="") {%>
+                            <% let uid=1; %>
+                            <% users.forEach((user) => { %>
+                                <li id=<%= uid %> onmouseover=" updateDeleteButtons(id)" onmouseleave="exit(id)"><%=user.Username %> 
+                                    <button onclick="onUpdate('<%=user._id%>','<%=user.Username%>','<%=user.Email%>','<%=user.PhoneNumber%>','<%=user.Password%>','<%=user.Type%>')">Update</button>
+                                     <button onclick="onDelete('<%=user._id%>','<%=user.Username%>','<%=user.Email%>','<%=user.PhoneNumber%>','<%=user.Password%>')">Delete</button ></li>
+                            <% uid++; %>
+                            <% }); %>
+                        <% } %> 
+                    
+                    </ul>
+                </div>
+                
+                
+                <div id="updateInfo">
+            
+                <form id="uform" method="post" action="/users" style="position:relative; top:50px; right:55px;" >
+                    <div id="updateType">
+                        <a  id="userType"></a>
+                    </div>
+                    <div class="update">
+                        <div class="icol">
+                            <h4>Username:</h4>
+                        </div>
+                        <div class="info">
+                            <label for="upuname"></label>
+                            <input type="text" id="u1" name="upuname">
+                        </div>
+                       
+                    </div>
+                    <div class="update">
+                        <div class="icol">
+                            <h4>Email:</h4>
+                        </div>
+                        <div class="info" style="margin-left: 45px;">
+                            <label for="upemail"></label>
+                            <input type="email" id="u2" name="upemail">
+                        </div>
+                        
+                    </div>
+                    <div class="update">
+                            <div class="icol">
+                                <h4>Phone Number:</h4>
+                            </div>
+                            <div class="info" style="margin-left: 28px;">
+                                <label for="upnumber"></label>
+                                <input type="number" id="u3" name="upnumber">
+                            </div>
+                           
+                    </div>
+                    <div class="update" style="display:none;">
+                        <div class="icol">
+                            <h4>Password:</h4>
+                        </div>
+                        <div class="info" style="margin-left: 18px;">
+                            <label for="uppsw"></label>
+                            <input type="password" id="u4" name="uppsw">
+                        </div>
+                       
+                    </div>
+                   <input type="text" id="currid" name="id"  style="display: none;">
+                    <div style="text-align: center;">
+                        <button type="submit" onclick="save()" style="width:120px; margin-top: 5%;" >Save</button>
+                    </div> 
+                    <script>
+                    '<% if(userUpdated){ %>'   
+                           document.getElementById("updateInfo").display="block";  
+                    '<% } %>' 
+                   </script>  
+                </form>
+                </div>
+                <% if(msg!="") {%>
+                <div id="smsg" style="position:relative; top:90px;">
+                    <span ><%=msg %></span>
+                 </div>
+                 <% } %>
+
+                <div id="deleteUser">
+                    <form action="/users/delete" method="post" style="position:relative; top:70px;">
+                    <div class="delete">
+                            <h4 class="field">Username:</h4>
+                        <div class="inf">
+                            <p id="d1"></p>
+                        </div>
+                    </div>
+                    <div class="delete">
+                        <div>
+                            <h4>Email:</h4>
+                        </div>
+                        <div class="inf">
+                            <p id="d2"></p>
+                        </div>
+                    </div>
+                    <div class="delete">
+                        <div>
+                            <h4>Phone Number:</h4>
+                        </div>
+                        <div class="inf">
+                            <p id="d3"></p>
+                        </div>
+                    </div>
+                    <div class="delete" style="display:none;">
+                        <div>
+                            <h4>Password:</h4>
+                        </div>
+                        <div class="inf">
+                            <p id="d4"></p>
+                        </div>
+                    </div>
+                    <input type="text" name="id" id="delid">
+                    <div>
+                        <button type="button" onclick="document.getElementById('id01').style.display='block'">Remove</button>
+
+                        <div id="id01" class="modal">
+                           
+                            
+                            <div class="container">
+                                <h1>Delete User</h1>
+                                <p>Are you sure you want to delete this user?</p>
+                  
+                                <div class="clearfix">
+                                <button type="button" class="cancelbtn" onclick="cancel()">Cancel</button>
+                                <button type="submit" class="deletebtn" >Delete</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script src="/js/user.js"></script>
+
+</body>
+</html>

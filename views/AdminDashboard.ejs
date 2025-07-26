@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin DashBoard</title>
+
+    <link rel="stylesheet" href="/css/styleActivities.css">
+    <link rel="stylesheet" href="/css/styleAdminDashboard.css">
+    <link rel="stylesheet" href="/css/styleHF_ALL.css">
+    <link rel="stylesheet" href="/css/styleChat.css">
+
+</head>
+<style>
+    .head,.rev{
+        margin-bottom: 10px;
+    }
+    .first{
+        margin-bottom:30px;
+        width:100%;
+    }
+</style>
+
+<body>
+    <script src="https://kit.fontawesome.com/ee4053c9b9.js" crossorigin="anonymous"></script>
+    <script src="/js/chat.js"></script>
+
+    <%- include("partials/adminHeader.ejs") %>
+<%var rate1;%>
+<%var id1;%>
+        <div class="main-content">
+            <div class="right">
+                <h2 class="head">TOP ACTIVITIES</h2>
+                <div class="first">
+                    <% if(Activities!=="") {%>
+                        <% id1=0; %>
+                        <%topactivities.forEach((topactivity) => { %>
+                            <%rate1=activityratings[id1]; %>
+                            <% Activities.forEach((Activity) => { %>
+                            <% if( (Activity.Name.toString()) === (topactivity.toString() ) ){ %>
+                    <div class="btn" style="width:250px">
+                        <div>
+                            <img src="/images/activities/<%=Activity.Picture[0]%>" width="200 px" height="150 px" >
+                        </div>
+
+                        <div>
+                            <h5><%=Activity.Header%></h5>
+                            <p><%=Activity.Advantage%> </p>
+                        </div>
+                        <span class="rating">
+                            <% for(var k =0; k <rate1 ;k++){ %>
+                                <i class="fa-solid fa-star"></i> 
+                                <% } %>
+                                <%=rate1%>/5
+                            </span>
+
+                    </div>
+                    <% id1++; %>
+                    <% } %>
+                    <% }); %>
+                    <% }); %>
+                <% }%>
+                    
+                </div>
+                
+
+                <%var rate2;%>
+                <%var id2;%>
+                <h2 class="head">TOP HOTELS</h2>
+                <div class="first">
+                    <% if(Hotels!=="") {%>
+                        <%id2=0; %>
+                        <%tophotels.forEach((tophotel) => { %>
+                            <%rate2=hotelratings[id2]; %>
+                        <% Hotels.forEach((hotel) => { %>
+                            <% if( (hotel.Name.toString()) === (tophotel.toString()) ) { %>
+                    <div class="btn"  style="width:250px">
+                        <div>
+                            <img src="/images/Hotels/<%=hotel.Picture[0]%>" width="200 px" height="150 px" >
+                        </div>
+
+                        <div>
+                            <h5><%=hotel.Name%></h5>
+                            <p><%=hotel.Location%>, Egypt </p>
+                        </div>
+
+                        <span class="rating">
+                        <% for(var k =0; k < rate2;k++){ %>
+                            <i class="fa-solid fa-star"></i>
+                            <% } %>
+                            <%=rate1%>/5
+                        </span>
+                         
+                        </div>
+                        <% id2++; %>
+                        <% } %>
+                        <% }); %>
+                        <% }); %>
+                    <% } %> 
+                    </div>
+
+            
+        
+            <h2 class="head">Weekly Hotel Reviews:</h2>
+                <div class="first">
+                    <% if(Hotels!=="") {%>
+                    <% const nowdate = new Date().toLocaleString('en-GB', {hour12: false,});%>
+                    <% const currday =nowdate.split("/")[0];%>
+                    <% const currmonth =nowdate.split("/")[1];%>
+                    <% const curryear =nowdate.split("/")[2].split(',')[0];%>
+                    <% var currdate = new Date(curryear,currmonth-1,currday ); %>
+                    <% let id3=0; %>
+                     <% Hotels.forEach((hotel) => { %>
+                    <% revs=hotel.Reviews%>
+                    <% revs.forEach((rev)=>{%>
+                    <% const day =rev.Date.split("/")[0];%>
+                    <% const month =rev.Date.split("/")[1];%>
+                    <% const year = rev.Date.split("/")[2].split(',')[0];%>
+                    <% var revdate = new Date(year,month-1,day ); %>
+                    <%var diffTime=Math.abs(currdate-revdate);%>
+                    <% var diffDays=Math.ceil(diffTime/(1000*60*60*24));%>
+                    <% if( diffDays<=7 ) { %>
+                        <div class="btn">
+                            <div class="rev">
+                                <h4><%=hotel.Name%></h4>
+                            </div>
+                            <div class="rev" style="margin-bottom:20px;">
+                                <%var daterev= rev.Date.split(',')[0];%>
+                              <h6 class="R"><%=rev.Username%> wrote a review on at <%=daterev%> </h6>
+                            </div>
+                            <span class="rating">
+                              <% let rates=rev.Rating;%>
+                                <% for(var i=0; i<rates; i++){%>
+                                  <i class="fa-solid fa-star"></i>
+                                  <%}%>
+                                  <%=rates%>/5
+                                </span>
+                            <div>
+                              <p>
+                                <%=rev.Comment%>
+                              </p>
+                            </div>
+                          </div>
+                    <% } %>
+                    <% }); %>
+                    <% id3++; %>
+                    <% }); %>
+                    <% } %>
+
+                        </div>    
+
+                <h2 class="head">Weekly Activity Reviews:</h2>
+                <div class="first">
+                    <% if(Activities!=="") {%>
+                    <% const nowdate = new Date().toLocaleString('en-GB', {hour12: false,});%>
+                    <% const currday =nowdate.split("/")[0];%>
+                    <% const currmonth =nowdate.split("/")[1];%>
+                    <% const curryear =nowdate.split("/")[2].split(',')[0];%>
+                    <% var currdate = new Date(curryear,currmonth-1,currday ); %>
+                    <% let id4=0; %>
+                     <% Activities.forEach((activity) => { %>
+                    <% revs=activity.Reviews%>
+                    <% revs.forEach((rev)=>{%>
+                    <% const day =rev.Date.split("/")[0];%>
+                    <% const month =rev.Date.split("/")[1];%>
+                    <% const year = rev.Date.split("/")[2].split(',')[0];%>
+                    <% var revdate = new Date(year,month-1,day ); %>
+                    <%var diffTime=Math.abs(currdate-revdate);%>
+                    <% var diffDays=Math.ceil(diffTime/(1000*60*60*24));%>
+                    <% if( diffDays<=7 ) { %>
+                        <div class="btn">
+                            <div class="rev">
+                                <h4><%=activity.Header%></h4>
+                            </div>
+                            <div class="rev" style="margin-bottom:6px;">
+                                <%var daterev= rev.Date.split(',')[0];%>
+                              <h6 class="R"> <%=rev.Username%> wrote a review on <%=daterev%> </h6>
+                            </div>
+                            <span class="rating">
+                              <% let rates=rev.Rating;%>
+                                <% for(var i=0; i<rates; i++){%>
+                                  <i class="fa-solid fa-star"></i>
+                                  <%}%>
+                                  <%=rates%>/5
+                                </span>
+                            <div>
+                              <p>
+                                <%=rev.Comment%>
+                              </p>
+                            </div>
+                          </div>
+                    <% } %>
+                    <% }); %>
+                    <% id4++; %>
+                    <% }); %>
+                    <% } %>
+
+                        </div> 
+                    </div>
+                </div>
+
+
+
+
+
+</body>
+
+</html>

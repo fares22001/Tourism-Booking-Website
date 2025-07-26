@@ -1,0 +1,124 @@
+#buttons {
+    position: relative;
+    margin-left: 7%;
+    margin-top: 2%;
+}
+
+#hotel,
+#form {
+    background-color: transparent;
+    border: none;
+}
+
+#buttons button {
+    border-radius: 17px;
+    background-color: rgb(54, 36, 27);
+    color: white;
+    font-weight: bold;
+    width: 120px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.plus {
+    border-radius: 10px;
+    background-color: rgb(54, 36, 27);
+    color: white;
+    font-weight: bold;
+    width: 40px;
+    height: 25px;
+    cursor: pointer;
+
+}
+
+
+.dropbtn {
+    background-color: rgb(54, 36, 27);
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+    background-color: rgb(88, 71, 62);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+}
+
+.dropdown-content h5 {
+    margin: 5px;
+}
+
+.dropdown-content h5:hover {
+    cursor: pointer;
+}
+
+.show {
+    display: block;
+}
+
+.error-message {
+    color: red
+}
+
+textarea,
+div input {
+    border: 3px solid #a78c4c;
+    padding: 10px;
+    color: #a78c4c;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    width: 500px;
+}
+
+#sub {
+    background-color: rgb(54, 36, 27);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    height: 40%;
+    border-radius: 10px;
+    margin-top: 2%;
+}
+
+.alert {
+    padding: 20px;
+    background-color: #df564c;
+    /* Red */
+    width:40%;
+    height:50px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}

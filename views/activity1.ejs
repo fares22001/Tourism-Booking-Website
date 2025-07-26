@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity</title>
+
+  <link rel="stylesheet" type="text/css" href="/css/styleActivities.css">
+  <link rel="stylesheet" type="text/css" href="/css/styleHF_ALL.css">
+  <link rel="stylesheet" type="text/css" href="/css/styleActivity1.css">
+
+</head>
+
+<body>
+
+  <script src="https://kit.fontawesome.com/ee4053c9b9.js" crossorigin="anonymous"></script>
+
+  <%- include("partials/headerPages.ejs") %>
+
+    <div class="body">
+      <div class="group">
+        <input type="text" value="<%=activity1[0].Name%>" name="name" hidden>
+        <% if(activity1[0]!=="" ) { %>
+          <h1>
+            <%=activity1[0].Header%>
+          </h1>
+          <% } %>
+            <span>
+              <% if(activity1[0]!=="" ) { %>
+                <%=activity1[0].Days %>
+                  <% } %>
+            </span> &nbsp;
+            <span class="rating">
+              <% if(activity1[0] !=="" ) {%>
+                <% let revs=activity1[0].Reviews%>
+                  <% let sum=0%>
+                    <% revs.forEach((rev)=>{%>
+                      <% sum=sum + parseInt(rev.Rating);%>
+                        <%})%>
+                          <% let avg=sum / activity1[0].Reviews.length;%>
+                            <% for(var i=0; i<Math.floor(avg); i++){%>
+                              <i class="fas fa-star"></i>
+                              <%}%>
+                                <%if(Math.floor(avg)> 0){%>
+                                  <span>
+                                    <%=Math.floor(avg)%>/5
+                                  </span>
+                                  <%}else{%>
+                                    No Reviews Yet
+                                  <%}%>
+                                    <% } %>
+            </span>
+            &nbsp;
+      </div>
+      <br>
+      <div class="grid">
+        <div class="mySlides">
+          <div class="numbertext">1 / 3</div>
+          <img src="/images/activities/<%=activity1[0].Picture[0]%>" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <div class="numbertext">2 / 3</div>
+          <img src="/images/activities/<%=activity1[0].Picture[1]%>" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <div class="numbertext">3 / 3</div>
+          <img src="/images/activities/<%=activity1[0].Picture[2]%>" style="width:100%">
+        </div>
+
+
+        <div class="pointers">
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+
+      </div>
+
+
+      <br>
+      <div>
+        <div class="text">
+          <% if(activity1[0]!=="" ) {%>
+            <p>
+              <%=activity1[0].BriefDes%>
+            </p>
+            <% }; %>
+        </div>
+
+        <div>
+          <h2>DETAILS:</h2>
+          <h4>Full Description: </h4>
+          <div class="w">
+            <div>
+              <% if(activity1[0]!=="" ) {%>
+                <p>
+                  <%=activity1[0].DetailedDes%>
+                </p>
+                <% }; %>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4>Plan: </h4>
+          <div class="w">
+            <% if(activity1[0]!=="" ) {%>
+              <p>
+                <%=activity1[0].Plan%>
+              </p>
+              <% }; %>
+          </div>
+        </div>
+
+        <div class="w">
+          <h4>About the Trip: </h4>
+          <% if(activity1[0]!=="" ) {%>
+            <p>
+              <span><i class="fa-sharp fa-solid fa-xmark"></i></span>&nbsp
+              <%=activity1[0].CancelDet %>
+            </p>
+            <% }; %>
+        </div>
+        <div class="w">
+
+          <% if(activity1[0]!=="" ) {%>
+            <p>
+              <span><i class="fa-regular fa-clock"></i></span>&nbsp
+              <%=activity1[0].Duration %>
+            </p>
+            <% }; %>
+        </div>
+        <div class="w">
+
+
+          <% if(activity1[0]!=="" ) {%>
+            <p>
+              <span><i class="fa-solid fa-bus"></i></span>&nbsp
+              <%=activity1[0].PickupDet %>
+            </p>
+            <% }; %>
+        </div>
+
+      </div>
+       
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      <script src="/js/Activity1.js"></script>
+      <% if(user.Type !=="admin" ){%>
+          <input type="text" id="name" value=<%=activity1[0].Name%> name="name2" style="display:none">
+          <h2>Book Now</h2>
+          <div class="book" id="book">
+            <div>
+              <input id="dropbtn"  list="Adults" placeholder="Participants " name="num" class="l">
+              <datalist id="Adults">
+                <option value="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="5"></option>
+                <option value="6"></option>
+                <option value="7"></option>
+                <option value="8"></option>
+                <option value="9"></option>
+                <option value="10"></option>
+              </datalist>
+              <div id="msg" class="check-error"></div>
+            </div>
+            <div>
+              <select name="days"  id="dropbtn"  class="l">
+                <%for(var i=0;i< activity1[0].DatesDetails.length; i++) { %>
+                  <% var b=activity1[0].DatesDetails[i].date; %>
+                  <% const dat = new Date().getTime();%>
+                  <% const y =b.split("-")[0]; %>
+                  <% const m =b.split("-")[1]; %>
+                  <% const d = b.split("-")[2]; %>
+                  <% const Actdate = new Date(y,m-1,d).getTime(); %>
+                  <% if(Actdate > dat) { %>
+                  <option value=<%=b %>><%=b %> </option>
+              <% } %>
+              <% } %>
+              </select>
+            <div id="date-msg" class="check-error"></div>
+          </div>
+          <div> 
+            <button onclick="isAvail()" id="check" >Check Availability</button>
+          </div>
+          </div>
+          <%}%>
+        
+     
+        <form  id="subForm"  action="<%=activity1[0].Name%>/<%=activity1[0]._id%>"  method="post"
+          style="border: none;display: none;">
+      <div id="av">
+        <h2>Available</h2>
+        <div class="duration">
+        <span><strong>FROM: </strong></span>
+        <span> <%=activity1[0].Starttime%></span>
+        <div style="margin-top:6px"> </div>
+        <span><strong>TO: </strong></span>
+        <span> <%=activity1[0].Endtime%></span>
+        </div>
+        <div class ="price">
+          <span>Total Price: </span>
+          <span id="num1"> </span>
+          <span>*</span>
+          <span id="price1"><%=activity1[0].Price%></span>
+          <span>=</span>
+          <span id="total1"></span>
+      </div>
+         <input type="hidden" id="participants" name="participants" >
+         <input type="hidden" id="date" name="date" >
+         <input type="hidden" id="price" name="price"  >
+        
+        <div style="text-align: center; margin-top:15px;">
+          <button type="submit" id="add" style="width:150px;cursor: pointer;">Add To Cart</button>
+        </div>
+
+        <div>
+          <p id="m" style="display:none;color:rgb(16, 73, 16)">*You must sign in to add item to cart*</p>
+        </div>
+
+      </div>
+    </form>
+    <script src="/js/Activity1.js"></script>
+
+   
+
+      
+        <div id="notavail" style="display: none;">
+          <h2>No Availability</h2>
+        </div>
+          
+
+      
+      <script src="/js/Activity1.js"></script>
+      <% if(activity1[0].Reviews.length !==0){%>
+        <div style="margin-top: 6%;">
+          <h2>Reviews</h2>
+        </div>
+        <div class=' first'>
+                    <% revs=activity1[0].Reviews%>
+                      <% revs.forEach((rev)=>{%>
+                        <div class="reviews">
+                          <div class="rev">
+                            <p style="font-size: 15px;">
+                             <span><i style="font-size: 19px;" class="fa-solid fa-user fa-2xs"></i><%=rev.Username%></span>  wrote a review at <%=rev.Date%>
+                            </p>
+                          </div>
+                          <div class="rating">
+                            <% let rates=rev.Rating;%>
+                              <% for(var i=0; i<rates; i++){%>
+                                <i class="fa-solid fa-star"></i>
+                                <%}%>
+                                <span style="font-size: 14px;"><%=rev.Rating%>/5</span>
+                          </div>
+                          <div>
+                            <p>
+                              <%=rev.Comment%>
+                            </p>
+                          </div>
+                        </div>
+                        <%})%>
+            </div>
+            <%}%>
+
+          </div>
+
+          <% if(user.Type !=="admin" || user==="" ){%>
+            <div class="addReviews">
+              <h3>Add Review</h3>
+              <form method="post" action="" id="revform">
+                <input type="text" name="activity" id="activity" value="<%=activity1[0].Name%>">
+                <textarea cols="60" rows="5" id="addrev" name="comment"></textarea>
+                <h3>Rating</h3>
+                <input id="dropbtn3" list="Rating" placeholder="Rating" name="rating">
+                <datalist id="Rating">
+                  <option value="1"></option>
+                  <option value="2"></option>
+                  <option value="3"></option>
+                  <option value="4"></option>
+                  <option value="5"></option>
+                </datalist>
+                <div><button type="submit" class="subutton " name="sub" >submit</button></div>
+                <% if(revmsg!==undefined) { %>
+                  <span id="reverror">
+                    <%=revmsg%>
+                  </span>
+                  <% } %>
+
+              </form>
+            </div>
+            <%}%>
+    </div>
+    <script src="/js/jazhotel.js"></script>
+    <script src="/js/Activity1.js"></script>
+
+    <%- include("partials/footer.ejs") %>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+body{
+    background-color:rgb(222, 221, 214) ;
+    color:rgb(54, 36, 27);
+  }
+textarea,input,div input[type=text]{
+    border:3px solid #a78c4c;
+    padding:10px;
+    color:#a78c4c;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius:20px;
+    width:500px;
+}
+
+div input[type=file]
+{
+    border:3px solid hsl(42, 47%, 79%);
+    padding:10px;
+    color:#a78c4c;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius:20px;
+    width:100%;
+}
+
+#editdates
+{
+    border:3px solid #a78c4c;
+    padding:4px;
+    color:#a78c4c;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius:20px;
+    width:120px;
+    height:30px;
+}
+
+#updateInfo{
+    display:none;
+    margin-left:-200px;
+}
+#Edit{
+    margin-left:4%;
+}
+#submit,#reset,.cancelbtn,.deletebtn,#submit1{
+    background-color: rgb(54, 36, 27);
+color: white;
+border: none;
+cursor: pointer;
+width: 20%;
+height:1%;
+border-radius: 10px;
+margin-left:0px;
+}
+#reset1{
+    background-color: rgb(54, 36, 27);
+color: white;
+border: none;
+cursor: pointer;
+width: 20%;
+height:35px;
+border-radius: 10px;
+}
+.cancelbtn,.deletebtn{
+    width: 20%;
+}
+#myUL{
+    width:600px;
+}
+#c{
+    display:none;
+    margin-left:30%;
+    position:absolute;
+    top:20%;
+}
+.Right{
+    width:60%;
+}
+.view{
+    margin:60px;
+    margin-left:-200px;
+}
+#showdate{
+display:none; 
+width:150px;
+}
+#confirm
+{
+    display:none; 
+}

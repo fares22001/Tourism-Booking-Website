@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% if(activity[0]!=="" ) {%>
+        <title>Edit <%=activity[0].Name%></title>
+        
+    <link rel="stylesheet" href="/css/styleAdminDashboard.css">
+    <link rel="stylesheet" href="/css/styleAddActivity.css">
+    <link rel="stylesheet" href="/css/styleEditActivities.css">
+    <%}%>
+
+</head>
+
+<body>
+
+    <script src="https://kit.fontawesome.com/ee4053c9b9.js" crossorigin="anonymous"></script>
+
+    <% if(activity[0]!=="" ){%>
+
+        <%- include("partials/adminHeader.ejs") %>
+
+        <div class="main-content">
+            <div class="right">
+                <div id="cont">
+                    <div>
+                        <form action="/editactivities/updated/<%=activity[0].Name%>" method="post" id="act" enctype="multipart/form-data" style="background-color:transparent; border:none;">
+                            <input type="text" name="id" style="display: none;" value="<%=activity[0]._id%>">
+                            <div>
+                                <h2>City's Name: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Cityname" name="Cityname" value='<%=activity[0].Name%>'>
+                            </div>
+                            <div>
+                                <h2>Header: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activityname" name="Activityname" value='<%=activity[0].Header%>'>
+                            </div>
+                           
+                            <div>
+                                <h2>Type: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="ActivityType" name="ActivityType" value='<%=activity[0].Type%>'>
+                            </div>
+                                <div>
+                                    <div>
+                                        <h2>Images</h2>
+                                    </div>
+                                    <div>
+                                        <div id="imagess">
+                                            <% let id=1 %>
+                                                <% activity[0].Picture.forEach((pic)=>{%>
+                                                    <img onclick='showInput("imaginput<%=id%>","img<%=id%>")'
+                                                        src="/images/activities/<%=pic%>" alt="<%=pic%>" id='img<%=id%>'
+                                                        style="width:160px; height:130px">
+                                                    <span>
+                                                        <input type="file" name=<%=pic%> id="imaginput<%=id%>" hidden>
+                                                    </span>
+                                                    <% id++%>
+                                                    <%})%>
+                                        </div>
+                                        <input type="text" style="display: none;" id="imagpaths" name="imgpaths">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h2>Advantage: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="ActivityAdv" name="ActivityAdv" value='<%=activity[0].Advantage%>'>
+                            </div>
+                            <div>
+                                <h2>Brief Description: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activitybrief" name="Activitybrief" value='<%=activity[0].BriefDes%>'>
+                            </div>
+                            <div>
+                                <h2>Detailed Description: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activitydet" name="Activitydet" value='<%=activity[0].DetailedDes%>'>
+                            </div>
+                            <div>
+                                <h2>Plan: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activityplan" name="Activityplan" value='<%=activity[0].Plan%>'>
+                            </div>
+                            <div>
+                                <h2>Cancellation details: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activitycancel" name="Activitycancel" value='<%=activity[0].CancelDet%>'>
+                            </div>
+                            <div>
+                                <h2>Duration: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activitydur" name="Activitydur" value='<%=activity[0].Duration%>'>
+                            </div>
+                            <div>
+                                <h2>Pickup Details: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activitypickup" name="Activitypickup" value='<%=activity[0].PickupDet%>'>
+                            </div>
+                            <div>
+                                <h2>Maximum Participants: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activitymax" name="Activitymax" value='<%=activity[0].MaxParticipants%>'>
+                            </div>
+                            <div>
+                                <h2>Starting time: </h2>
+                            </div>
+                            <div>
+                                <input type="time" id="Activitystart" name="Activitystart" value='<%=activity[0].Starttime%>'>
+                            </div>
+                            <div>
+                                <h2>Ending time: </h2>
+                            </div>
+                            <div>
+                                <input type="time" id="Activityend" name="Activityend" value='<%=activity[0].Endtime%>'>
+                            </div>
+                            <div>
+                                <h2>Price per person: </h2>
+                            </div>
+                            <div>
+                                <input type="text" id="Activityprice" name="Activityprice" value='<%=activity[0].Price%>'>
+                            </div>
+                            <div>
+                                <h2>Available dates: </h2>
+                            </div>
+                            <div>
+                                            <% id=1 %>
+                                            <% let dates=activity[0].DatesDetails %>
+                                            <% dates.forEach((date)=>{%>
+                                            <% if(dates.length!=0){%>
+                                            <%if(date.max === 0) {%>
+                                            <% var b=date.date; %>
+                                            <% const dat = new Date().getTime();%>
+                                            <% const y =b.split("-")[0]; %>
+                                            <% const m =b.split("-")[1]; %>
+                                            <% const d = b.split("-")[2]; %>
+                                            <% const Actdate = new Date(y,m-1,d).getTime(); %>
+                                            <% if(Actdate > dat) { %>
+                                    <li id="datels<%=id%>">
+                                    <input type="text" value="<%=b%>" id="dateinput<%=id%>" style="width:120px;">
+                                        <button type="button" onclick="updateDate('showdate<%=id%>','confirm<%=id%>')" >Update</button> 
+                                        <button type="button" onclick="deleteDate('datels<%=id%>')">Delete</button >
+                                    <span><input type="date" style="display:none;width:150px;" id="showdate<%=id%>" placeholder="choose a date"></span>
+                                    <span><button type="button" style="display:none" id="confirm<%=id%>" onclick="confirmDate(this.id,'dateinput<%=id%>','showdate<%=id%>')">Confirm</button></span>
+                                </li>
+                                    <% id++%>
+                                    <% } %>
+                                    <% } %>
+                                    <%if(date.max !== 0) { %>
+                                        <% var b=date.date; %>
+                                        <% const dat = new Date().getTime();%>
+                                            <%console.log(dat)%>
+                                            <% const y =b.split("-")[0]; %>
+                                            <% const m =b.split("-")[1]; %>
+                                            <% const d = b.split("-")[2]; %>
+                                            <% const Actdate = new Date(y,m-1,d).getTime(); %>
+                                            <%console.log(Actdate)%>
+                                            <% if(Actdate > dat) { %>
+                                        <li id="datels<%=id%>">
+                                            <input type="text" value="<%=b%>" id="dateinput<%=id%>" style="width:120px;" readonly>
+                                            </li>
+                                    <%}%>
+                                    <% } %>
+                                    <% id++%>
+                                    <%}%>
+                                    <%})%>
+                            </div>
+                            <div id="dates">
+                                <div>
+                                    <h3>Add dates:</h3>
+                                </div>
+                                <div>
+                                    <div>
+                                        <ul id="li1"></ul>
+                                    </div>
+                                    <textarea name="alldates" id="Dates" cols="15" rows="5"
+                                      style="display:none;" ></textarea>
+                                    <input type="date" id="Actaddeddate" name="addeddate">
+                                    <button type="button" class='plus' id="add" type='button'
+                                        onclick="addDate('Actaddeddate','Dates','datelinew','li1','error-dates')">+</button>
+                                    <span class='error-message' id="error-dates"></span>
+                                </div>
+                            </div>	
+                            
+
+                           
+                            <div id="buttons">
+                                <span>
+                                    <button type="submit">Submit</button>
+                                    <button type="button" onclick="location.href='/editactivities'"> Back</button>
+                                </span>
+                            </div>
+                            <input type="text" value="<%=activity.Rate%>" id="rate" style="display:none;">
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <%}%>
+        <script src="/js/EditAct1.js"></script>
+        
+        
+    </body>
+
+    </html>
+
+

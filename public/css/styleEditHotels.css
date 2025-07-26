@@ -1,0 +1,52 @@
+#myUL li,
+#myInput {
+    width: 500px;
+}
+
+#sBar {
+    margin-left: 0%;
+}
+
+#sIcon {
+    position: absolute;
+    left: 6%;
+    top: 29%;
+}
+
+#c {
+    display: none;
+}
+
+.right {
+    display: flex;
+}
+
+#buttons {
+    position: relative;
+    top: 3%;
+}
+
+img :hover {
+    cursor: pointer;
+}
+
+#i4 li, #i5 li, #i6 li{
+    margin: 6px
+}
+
+#form {
+    background-color: transparent;
+    border: none;
+}
+
+#imagess{
+    width:60%;
+}
+div input {
+    border: 3px solid #a78c4c;
+    padding: 10px;
+    color: #a78c4c;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    width: 40%;
+}
