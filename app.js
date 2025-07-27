@@ -58,8 +58,7 @@ app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public"))); //All static assets in the public folder
 console.log(__dirname);
 
-const dburl =
-  "mongodb+srv://newuser:newuser123@cluster0.7xhafht.mongodb.net/Tours?retryWrites=true&w=majority";
+const dburl ="";
 mongoose
   .connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch((err) => console.log(err));
